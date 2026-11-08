@@ -121,6 +121,20 @@ MODEL_ALIASES = {
     "grok3": "xai/grok-3-beta",
     "optimus": "openrouter/openrouter/optimus-alpha",
 }
+
+# Custom models integration (loosely coupled)
+try:
+    # Import from root-level custom_models (not aider.custom_models stub)
+    import custom_models
+    _custom_aliases = custom_models.get_custom_aliases()
+    if _custom_aliases:
+        MODEL_ALIASES.update(_custom_aliases)
+        print(f"[Custom Models] Added {len(_custom_aliases)} model alias(es)")
+except ImportError:
+    pass  # custom_models not available
+except Exception as e:
+    print(f"Warning: Failed to load custom model aliases: {e}")
+
 # Model metadata loaded from resources and user's files.
 
 
